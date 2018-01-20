@@ -1,0 +1,9 @@
+#!/bin/bash
+
+nba-stats player-tracking-stats --PtMeasureType=Efficiency --to-csv > data/player-effeciency.csv
+nba-stats player-general-stats --PlayerPosition=G --MeasureType=Advanced --add-csv-params=PlayerPosition --to-csv > data/guards.csv
+nba-stats player-general-stats --PlayerPosition=F --MeasureType=Advanced --add-csv-params=PlayerPosition --to-csv > data/forwards.csv
+nba-stats player-general-stats --PlayerPosition=C --MeasureType=Advanced --add-csv-params=PlayerPosition --to-csv > data/centers.csv
+
+nba-stats combine-csv data/guards.csv data/forwards.csv data/centers.csv > data/players-with-position.csv
+nba-stats merge-csv --left=data/player-effeciency.csv --right=data/players-with-position.csv --id=PLAYER_ID > data/players.csv
