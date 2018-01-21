@@ -1,0 +1,32 @@
+{
+  "name": "basketball-stats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "rollup": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caged/basketball-stats.git"
+  },
+  "author": "Justin Palmer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Caged/basketball-stats/issues"
+  },
+  "homepage": "https://github.com/Caged/basketball-stats#readme",
+  "dependencies": {
+    "d3": "^4.12.2",
+    "three": "^0.89.0",
+    "three-trackballcontrols": "0.0.7"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "rollup": "^0.54.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-uglify": "^3.0.0"
+  }
+}

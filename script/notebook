@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+appdir=$(cd $(dirname "$0")/.. && pwd)
+cd "$appdir" && docker run -ti --rm -p 8888:8888 -v "$appdir/data":/home/jovyan/work basketball-stats
