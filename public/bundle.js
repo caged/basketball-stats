@@ -5778,17 +5778,11 @@ function render(data) {
   const visel = select('.js-content');
   const stepel = select('.js-steps');
   const options = {};
-  var paused = false;
-  var step = 0;
-  var chunk = 1;
-  var frame;
 
   const timescale = linear$2().domain([0, 20, 50, 100, 200, 6000]).range([60, 30, 20, 10, 0]);
 
   slider(optel, 'Perplexity', 2, 100, 10);
   slider(optel, 'Epsilon', 1, 20, 5);
-
-  updateOptions();
 
   const margin = { t: 10, r: 10, b: 10, l: 10 };
   const width = parseInt(visel.style('width')) - margin.l - margin.r;
@@ -5802,36 +5796,50 @@ function render(data) {
 
   const svg = visel.append('svg').attr('width', width + margin.l + margin.r).attr('height', height + margin.t + margin.b).append('g').attr('transform', `translate(${margin.l},${margin.t})`);
 
-  var tsne = new tsnejs.tSNE(options);
-  tsne.initDataRaw(statdata);
+  function run() {
+    var step = 0;
+    var chunk = 1;
+    var paused = false;
+    var frame;
 
-  select('.js-pause').on('click', function () {
-    select(this).classed('paused', paused = !select(this).classed('paused'));
-    tick();
-  });
+    console.log('CALLED RUN', options);
+    var tsne = new tsnejs.tSNE(options);
+    tsne.initDataRaw(statdata);
 
-  function tick() {
-    if (paused) return;
-
-    if (step >= 400) chunk = 10;
-    for (var k = 0; k < chunk; k++) {
-      tsne.step();
-      ++step;
-    }
-
-    const solution = tsne.getSolution().map((xy, i) => {
-      const player = data[i];
-      return new Point(xy, player);
+    select('.js-pause').on('click', function () {
+      select(this).classed('paused', paused = !select(this).classed('paused'));
+      if (paused) {
+        window.cancelAnimationFrame(frame);
+      } else {
+        tick();
+      }
     });
 
-    plot(solution, svg);
+    function tick() {
+      if (paused) return;
 
-    stepel.text(step);
+      if (step >= 400) chunk = 10;
+      for (var k = 0; k < chunk; k++) {
+        tsne.step();
+        ++step;
+      }
 
-    var timeout = timescale(step);
-    setTimeout(() => {
-      frame = window.requestAnimationFrame(tick);
-    }, timeout);
+      const solution = tsne.getSolution().map((xy, i) => {
+        const player = data[i];
+        return new Point(xy, player);
+      });
+
+      plot(solution, svg);
+
+      stepel.text(step);
+
+      var timeout = timescale(step);
+      setTimeout(() => {
+        frame = window.requestAnimationFrame(tick);
+      }, timeout);
+    }
+
+    tick();
   }
 
   function updateOptions() {
@@ -5848,7 +5856,10 @@ function render(data) {
 
     const value = sect.append('span').attr('class', `slider-value slider-value-${name}`).text(val);
 
-    const slider = sect.append('input').attr('class', 'option').attr('type', 'range').attr('min', min).attr('max', max).attr('value', val).attr('name', name.toLowerCase()).on('change', updateOptions).on('input', () => value.text(slider.node().value));
+    const slider = sect.append('input').attr('class', 'option').attr('type', 'range').attr('min', min).attr('max', max).attr('value', val).attr('name', name.toLowerCase()).on('change', () => {
+      updateOptions();
+      run();
+    }).on('input', () => value.text(slider.node().value));
   }
 
   function plot(players, canvas) {
@@ -5879,7 +5890,8 @@ function render(data) {
     nodes.exit().remove();
   }
 
-  tick();
+  updateOptions();
+  run();
 }
 
 class Point {
