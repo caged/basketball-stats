@@ -7,12 +7,8 @@ import commonjs from 'rollup-plugin-commonjs';
 export default {
   input: 'main.js',
   output: {
-    format: 'umd',
-    name: 'ForceGraph3D',
+    format: 'iife',
     file: 'public/bundle.js'
   },
-  moduleContext: {
-    [require.resolve('three')]: 'window'
-  },
-  plugins: [ babel({ exclude: 'node_modules/**' }), resolve(), commonjs()]
+  plugins: [ babel({ exclude: 'node_modules/**' }), resolve()]
 };

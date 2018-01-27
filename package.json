@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "rollup": "rollup -c -w"
+    "rollup": "rollup -c -w",
+    "server": "cd public && python -m http.server"
   },
   "repository": {
     "type": "git",

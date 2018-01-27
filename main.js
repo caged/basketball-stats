@@ -1,1 +1,1 @@
-import './src/points'
+import './src/interactive'
