@@ -14,7 +14,7 @@
 
     .wrapper {
       display: grid;
-      grid-template-rows: 90px 40px 2fr;
+      grid-template-rows: 90px 110px 2fr;
       height: 100vh;
     }
 
@@ -30,6 +30,7 @@
 
     .player-info {
       display: grid;
+      grid-template-columns: repeat(15, 1fr);
       background: #f7f7f7;
     }
 
@@ -49,6 +50,26 @@
 
     .option {
       display: block;
+    }
+
+    .detail {
+      font-size: 10px;
+      border: 1px solid #eee;
+      padding: 10px;
+    }
+
+    .k, .v {
+      display: block;
+    }
+
+    .k {
+      text-align: center;
+      color: #999;
+    }
+
+    .v {
+      font-weight: bold;
+      text-align: center;
     }
 
     </style>

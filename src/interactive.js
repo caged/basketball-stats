@@ -1,4 +1,4 @@
-import { csv, select, scaleLinear, extent, scaleOrdinal } from 'd3';
+import { csv, select, scaleLinear, extent, scaleOrdinal, entries } from 'd3';
 import tsnejs from './tsne.js';
 
 const META = [
@@ -148,7 +148,24 @@ function render(data) {
       .attr('cx', (d) => 0)
       .attr('cy', (d) => 0)
       .style('fill', (d) => color(d.meta.PlayerPosition))
-      .on('mouseover', (d) => console.log(d.meta.PLAYER_NAME))
+      .on('click', (d) => {
+        select('.js-player-info')
+          .selectAll('.detail').remove()
+
+        const info = META.concat(STATS)
+          .map((v) => { return { key: v, val: d.meta[v] } })
+
+        select('.js-player-info').selectAll('.detail')
+          .data(info)
+        .enter().append('div')
+          .attr('class', 'detail')
+          .html((v) => {
+            return `
+              <span class="v">${v.val}</span>
+              <span class="k">${v.key}<span>`
+          })
+
+      })
 
     nodes
       .attr('cx', (d) => x(d.xy[0]))

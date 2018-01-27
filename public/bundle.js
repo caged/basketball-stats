@@ -5765,6 +5765,8 @@ tsnejs.tSNE = tSNE; // export tSNE class
 
 // if(typeof module != "undefined")  module.exports = tsnejs
 
+const META = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'AGE', 'PlayerPosition'];
+
 const STATS = ['OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_PCT', 'AST_TO', 'AST_RATIO', 'OREB_PCT', 'DREB_PCT', 'REB_PCT', 'TM_TOV_PCT', 'EFG_PCT', 'TS_PCT', 'USG_PCT', 'FGM', 'FGA', 'FGM_PG', 'FGA_PG'];
 
 function render(data) {
@@ -5858,7 +5860,19 @@ function render(data) {
 
     const nodes = canvas.selectAll('.node').data(players);
 
-    nodes.enter().append('circle').attr('class', 'node').attr('r', 3).attr('cx', d => 0).attr('cy', d => 0).style('fill', d => color(d.meta.PlayerPosition)).on('mouseover', d => console.log(d.meta.PLAYER_NAME));
+    nodes.enter().append('circle').attr('class', 'node').attr('r', 3).attr('cx', d => 0).attr('cy', d => 0).style('fill', d => color(d.meta.PlayerPosition)).on('click', d => {
+      select('.js-player-info').selectAll('.detail').remove();
+
+      const info = META.concat(STATS).map(v => {
+        return { key: v, val: d.meta[v] };
+      });
+
+      select('.js-player-info').selectAll('.detail').data(info).enter().append('div').attr('class', 'detail').html(v => {
+        return `
+              <span class="v">${v.val}</span>
+              <span class="k">${v.key}<span>`;
+      });
+    });
 
     nodes.attr('cx', d => x(d.xy[0])).attr('cy', d => y(d.xy[1]));
 
