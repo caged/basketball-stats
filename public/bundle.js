@@ -5765,11 +5765,26 @@ tsnejs.tSNE = tSNE; // export tSNE class
 
 // if(typeof module != "undefined")  module.exports = tsnejs
 
-const META = ['PLAYER_NAME', 'TEAM_ABBREVIATION', 'AGE', 'PlayerPosition'];
+const META = ['PLAYER_NAME', 'PlayerPosition', 'MIN'];
 
-const STATS = ['OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_PCT', 'AST_TO', 'AST_RATIO', 'OREB_PCT', 'DREB_PCT', 'REB_PCT', 'TM_TOV_PCT', 'EFG_PCT', 'TS_PCT', 'USG_PCT', 'FGM', 'FGA', 'FGM_PG', 'FGA_PG'];
+const STATS = [
+// 'OFF_RATING',
+// 'DEF_RATING',
+// 'NET_RATING',
+// 'AST_PCT',
+// 'AST_TO',
+// 'AST_RATIO',
+// 'OREB_PCT',
+// 'DREB_PCT',
+// 'REB_PCT',
+// 'TM_TOV_PCT',
+'EFG_PCT', 'TS_PCT', 'USG_PCT'];
 
 function render(data) {
+  data = data.filter(d => {
+    return d.MIN >= 10 && d.GP >= 20;
+  });
+
   const statdata = data.map(d => {
     return STATS.map(s => +d[s]);
   });
@@ -5798,7 +5813,7 @@ function render(data) {
 
   const y = linear$2().range([0, height]);
 
-  const color = ordinal().domain(['G', 'F', 'C']).range(['red', 'green', 'blue']);
+  const color = ordinal().domain(['G', 'F', 'C']).range(['#46c06f', '#fa7d5e', '#7a3aa3']);
 
   const svg = visel.append('svg').attr('width', width + margin.l + margin.r).attr('height', height + margin.t + margin.b).append('g').attr('transform', `translate(${margin.l},${margin.t})`);
 
@@ -5860,7 +5875,7 @@ function render(data) {
 
     const nodes = canvas.selectAll('.node').data(players);
 
-    nodes.enter().append('circle').attr('class', 'node').attr('r', 3).attr('cx', d => 0).attr('cy', d => 0).style('fill', d => color(d.meta.PlayerPosition)).on('click', d => {
+    nodes.enter().append('circle').attr('class', d => `node ${d.meta.TEAM_ABBREVIATION}`).attr('r', 4).attr('cx', d => 0).attr('cy', d => 0).style('fill', d => color(d.meta.PlayerPosition)).on('mouseover', d => {
       select('.js-player-info').selectAll('.detail').remove();
 
       const info = META.concat(STATS).map(v => {

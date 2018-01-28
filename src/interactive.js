@@ -3,32 +3,35 @@ import tsnejs from './tsne.js';
 
 const META = [
   'PLAYER_NAME',
-  'TEAM_ABBREVIATION',
-  'AGE',
-  'PlayerPosition'
+  'PlayerPosition',
+  'MIN'
 ]
 
 const STATS = [
-  'OFF_RATING',
-  'DEF_RATING',
-  'NET_RATING',
-  'AST_PCT',
-  'AST_TO',
-  'AST_RATIO',
-  'OREB_PCT',
-  'DREB_PCT',
-  'REB_PCT',
-  'TM_TOV_PCT',
+  // 'OFF_RATING',
+  // 'DEF_RATING',
+  // 'NET_RATING',
+  // 'AST_PCT',
+  // 'AST_TO',
+  // 'AST_RATIO',
+  // 'OREB_PCT',
+  // 'DREB_PCT',
+  // 'REB_PCT',
+  // 'TM_TOV_PCT',
   'EFG_PCT',
   'TS_PCT',
   'USG_PCT',
-  'FGM',
-  'FGA',
-  'FGM_PG',
-  'FGA_PG'
+  // 'FGM',
+  // 'FGA',
+  // 'FGM_PG',
+  // 'FGA_PG'
 ]
 
 function render(data) {
+  data = data.filter((d) => {
+    return d.MIN >= 10 && d.GP >= 20
+  })
+
   const statdata = data.map(d => {
     return STATS.map((s) => +d[s])
   })
@@ -63,7 +66,7 @@ function render(data) {
 
   const color = scaleOrdinal()
     .domain(['G', 'F', 'C'])
-    .range(['red', 'green', 'blue'])
+    .range(['#46c06f', '#fa7d5e', '#7a3aa3'])
 
   const svg = visel.append('svg')
     .attr('width', width + margin.l + margin.r)
@@ -143,12 +146,12 @@ function render(data) {
       .data(players)
 
     nodes.enter().append('circle')
-      .attr('class', 'node')
-      .attr('r', 3)
+      .attr('class', (d) => `node ${d.meta.TEAM_ABBREVIATION}`)
+      .attr('r', 4)
       .attr('cx', (d) => 0)
       .attr('cy', (d) => 0)
       .style('fill', (d) => color(d.meta.PlayerPosition))
-      .on('click', (d) => {
+      .on('mouseover', (d) => {
         select('.js-player-info')
           .selectAll('.detail').remove()
 
