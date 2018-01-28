@@ -1,13 +1,35 @@
 import React, { Component } from 'react'
 import FeatureHeader from './FeatureHeader'
+import Visualization from './Visualization'
 
-// import './FeatureContent.css'
+import './FeatureContent.css'
 
 class FeatureContent extends Component {
+  componentDidMount() {
+    this.updateDimensions()
+    window.addEventListener('resize', this.updateDimensions.bind(this))
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions.bind(this))
+  }
+
+  updateDimensions() {
+    const dimensions = {
+      width: this.node.clientWidth,
+      height: this.node.clientHeight
+    }
+
+    this.props.updateDimensions(dimensions)
+  }
+
   render() {
     return (
       <div className="FeatureContent">
         <FeatureHeader options={this.props.options} updateOptions={this.props.updateOptions} />
+        <div ref={node => this.node = node} className="viswrapper">
+          <Visualization dimensions={this.props.dimensions} />
+        </div>
       </div>
     )
   }
