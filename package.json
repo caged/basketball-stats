@@ -2,32 +2,39 @@
   "name": "basketball-stats",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "rollup": "rollup -c -w",
-    "server": "cd public && python -m http.server"
+    "build:dev": "rollup -c config/rollup.config.dev.js -w",
+    "start": "npm-run-all --parallel build:dev browse",
+    "browse": "browser-sync start --s --serveStatic public --index public/index-dev.html --files public/**/*.html,build/**/*.js --no-notify"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Caged/basketball-stats.git"
   },
   "author": "Justin Palmer",
-  "license": "ISC",
+  "license": "",
   "bugs": {
     "url": "https://github.com/Caged/basketball-stats/issues"
   },
   "homepage": "https://github.com/Caged/basketball-stats#readme",
   "dependencies": {
     "d3": "^4.12.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "three": "^0.89.0",
     "three-trackballcontrols": "0.0.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "browser-sync": "^2.23.6",
+    "npm-run-all": "^4.1.2",
     "rollup": "^0.54.1",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0"
   }
 }
