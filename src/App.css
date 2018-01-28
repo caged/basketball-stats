@@ -10,4 +10,5 @@ body {
 .App {
   display: grid;
   grid-template-columns: 1fr 3fr;
+  height: 100vh;
 }

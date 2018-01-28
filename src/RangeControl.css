@@ -1,3 +1,16 @@
 .RangeControl {
   padding: 20px;
 }
+
+.RangeControl-info {
+  display: block;
+}
+
+.RangeControl-label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.RangeControl-value {
+  color: hsl(147, 66%, 40%);
+}
