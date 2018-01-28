@@ -124,7 +124,7 @@ function render(data) {
       .attr('class', `slider-value slider-value-${name}`)
       .text(val)
 
-    const slider = sect.append('input')
+    sect.append('input')
       .attr('class', 'option')
       .attr('type', 'range')
       .attr('min', min)

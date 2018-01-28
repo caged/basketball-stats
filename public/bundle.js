@@ -5863,7 +5863,7 @@ function render(data) {
 
     const value = sect.append('span').attr('class', `slider-value slider-value-${name}`).text(val);
 
-    const slider = sect.append('input').attr('class', 'option').attr('type', 'range').attr('min', min).attr('max', max).attr('value', val).attr('name', name.toLowerCase()).on('change', updateOptions).on('input', () => value.text(slider.node().value));
+    sect.append('input').attr('class', 'option').attr('type', 'range').attr('min', min).attr('max', max).attr('value', val).attr('name', name.toLowerCase()).on('change', updateOptions).on('input', () => value.text(slider.node().value));
   }
 
   function plot(players, canvas) {
