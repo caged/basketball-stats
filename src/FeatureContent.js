@@ -7,7 +7,7 @@ class FeatureContent extends Component {
   render() {
     return (
       <div className="FeatureContent">
-        <FeatureHeader />
+        <FeatureHeader options={this.props.options} updateOptions={this.props.updateOptions} />
       </div>
     )
   }
