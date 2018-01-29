@@ -2,7 +2,7 @@ const Config = {}
 Config.Stats = {}
 
 
-Config.Stats.defaultScope = [
+Config.stats = [
   'EFG_PCT',
   'TS_PCT',
   'USG_PCT'

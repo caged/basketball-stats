@@ -1,38 +1,64 @@
 import React, { Component } from 'react'
-import { select } from 'd3'
+import { select, scaleLinear, scaleOrdinal } from 'd3'
+import * as tsnejs from './tsne'
 import './Visualization.css'
 
 class Visualization extends Component {
   constructor() {
     super()
-    this.initializeCanvas = this.initializeCanvas.bind(this)
+
+    this.margin = { t: 10, r: 10, b: 10, l: 10 }
+
+    this.x = scaleLinear()
+    this.y = scaleLinear()
+    this.c = scaleOrdinal()
+      .domain(['G', 'F', 'C'])
+      .range(['#46c06f', '#fa7d5e', '#7a3aa3'])
+
+    this.redraw = this.redraw.bind(this)
   }
 
-  componentDidMount() {
-    this.initializeCanvas()
+  shouldComponentUpdate() {
+    return this.props.players.length > 0
   }
 
-  //  componentDidUpdate() {
-  //    this.initializeCanvas()
-  //  }
-  //
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
+  componentDidUpdate(prevProps, b) {
+    const {width:nWidth, height:nHeight} = prevProps.dimensions
+    const { width, height } = this.props.dimensions
 
-  initializeCanvas() {
-    console.log(this.props);
-    const margin = { t: 0, r: 0, b: 0, l: 0 }
-    console.log('updated');
-    console.log(this.props.dimensions);
+    if(nWidth !== width || nHeight !== height) {
+      this.redraw()
+    } else {
+      this.recompute()
+    }
+  }
+
+  recompute() {
+    var tsne = new tsnejs.tSNE(this.props.options)
+    console.log(this.props.players);
+    tsne.initDataRaw(this.props.players)
+  }
+
+  redraw() {
+    console.log('drawing');
+    const { dimensions } = this.props
+    const width = dimensions.width - this.margin.l - this.margin.r
+    const height = dimensions.height - this.margin.t - this.margin.b
+
+    this.x.range([0, width])
+    this.y.range([0, height])
+
+    this.recompute()
   }
 
   render() {
     const { width, height } = this.props.dimensions
+    const transform = `translate(${this.margin.l}, ${this.margin.t})`
 
     return (
-      <svg width={width} height={height} className="Visualization" ref={node => this.node = node}>
-        Visualization
+      <svg ref={node => this.node = node} width={width} height={height} className="Visualization">
+        <g transform={transform}>
+        </g>
       </svg>
     )
   }

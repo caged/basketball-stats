@@ -10,7 +10,7 @@ class FeatureHeader extends Component {
     return (
       <header className="FeatureHeader">
         <RangeControl min="2" max="100" value={perplexity} label="Perplexity" updateOptions={this.props.updateOptions} />
-        <RangeControl min="1" max="20" value={ epsilon } label="Epsilon" updateOptions={this.props.updateOptions} />
+        <RangeControl min="1" max="20" value={epsilon} label="Epsilon" updateOptions={this.props.updateOptions} />
       </header>
     )
   }

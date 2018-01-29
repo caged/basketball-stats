@@ -14,6 +14,7 @@ class App extends Component {
 
     this.state = {
       players: [],
+      stats: [],
       dimensions: {
         width: 0,
         height: 0
@@ -22,11 +23,13 @@ class App extends Component {
         perplexity: 10,
         epsilon: 5
       },
-      stats: Config.Stats
+      config: Config
     }
 
     this.updateOptions = this.updateOptions.bind(this)
     this.updateDimensions = this.updateDimensions.bind(this)
+    this.updateStats = this.updateStats.bind(this)
+
   }
 
   updateOptions(key, val) {
@@ -37,6 +40,10 @@ class App extends Component {
 
   updateDimensions(dimensions) {
     this.setState({ dimensions })
+  }
+
+  updateStats(stats) {
+    this.setState({ stats })
   }
 
   componentDidMount() {
@@ -50,10 +57,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SideBar />
+        <SideBar updateStats={this.updateStats} />
         <FeatureContent
           dimensions={this.state.dimensions}
           options={this.state.options}
+          players={this.state.players}
           updateOptions={this.updateOptions}
           updateDimensions={this.updateDimensions} />
       </div>

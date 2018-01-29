@@ -28,7 +28,7 @@ class FeatureContent extends Component {
       <div className="FeatureContent">
         <FeatureHeader options={this.props.options} updateOptions={this.props.updateOptions} />
         <div ref={node => this.node = node} className="viswrapper">
-          <Visualization dimensions={this.props.dimensions} />
+          <Visualization players={this.props.players} dimensions={this.props.dimensions} options={this.props.options} />
         </div>
       </div>
     )
