@@ -1,12 +1,22 @@
 import React, { Component } from 'react'
+import {debounce} from 'throttle-debounce'
 
 import './RangeControl.css'
 
 class RangeControl extends Component {
+  constructor() {
+    super()
+    this.updateOption = debounce(200, this.updateOption)
+  }
+
   updateOption(event) {
-    event.preventDefault()
     const {name, value} = event.target
     this.props.updateOptions(name, value)
+  }
+
+  onChange(event) {
+    event.persist()
+    this.updateOption(event)
   }
 
   render() {
@@ -24,7 +34,7 @@ class RangeControl extends Component {
             min={min}
             name={label.toLowerCase()}
             defaultValue={value}
-            onChange={(e) => this.updateOption(e) } />
+            onChange={this.onChange.bind(this)} />
       </div>
     )
   }

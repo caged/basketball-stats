@@ -9,11 +9,17 @@ class Visualization extends Component {
 
     this.margin = { t: 10, r: 10, b: 10, l: 10 }
 
+    // this.paused = false
     this.x = scaleLinear()
     this.y = scaleLinear()
     this.c = scaleOrdinal()
       .domain(['G', 'F', 'C'])
       .range(['#46c06f', '#fa7d5e', '#7a3aa3'])
+
+
+    this.t = scaleLinear()
+      .domain([0, 20, 50, 100, 200, 6000])
+      .range([60, 30, 20, 10, 0]);
 
     this.redraw = this.redraw.bind(this)
   }
@@ -21,10 +27,6 @@ class Visualization extends Component {
   shouldComponentUpdate(props) {
     return props.stats.length > 0
   }
-
-  // componentDidMount() {
-  //   this.redraw()
-  // }
 
   componentDidUpdate(prevProps, b) {
     const {width:nWidth, height:nHeight} = prevProps.dimensions
@@ -38,9 +40,30 @@ class Visualization extends Component {
   }
 
   recompute() {
-    var tsne = new tsnejs.tSNE(this.props.options)
-    tsne.initDataRaw(this.props.stats)
-    console.log(this.props.stats);
+    console.log('recomputing');
+    // var step = 0
+    // var chunk = 1
+    // var frame
+    // var tsne = new tsnejs.tSNE(this.props.options)
+    //
+    // tsne.initDataRaw(this.props.stats)
+    //
+    // function tick() {
+    //   if(step >= 400) chunk = 10
+    //   for(var k = 0; k < chunk; k++) {
+    //     tsne.step()
+    //     ++step
+    //   }
+    //
+    //   const solution = tsne.getSolution().map((xy, i) => {
+    //     // console.log(xy);
+    //   })
+    //
+    //   // this.props.updateStep(step)
+    // }
+    //
+    // tick = tick.bind(this)
+    // tick()
   }
 
   redraw() {

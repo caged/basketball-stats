@@ -11,6 +11,7 @@ class FeatureHeader extends Component {
       <header className="FeatureHeader">
         <RangeControl min="2" max="100" value={perplexity} label="Perplexity" updateOptions={this.props.updateOptions} />
         <RangeControl min="1" max="20" value={epsilon} label="Epsilon" updateOptions={this.props.updateOptions} />
+        <div className="step">{this.props.step}</div>
       </header>
     )
   }
