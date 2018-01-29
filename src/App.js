@@ -43,12 +43,7 @@ class App extends Component {
   }
 
   updateConfig(config) {
-    const stats = this.state.players.map((p) => {
-      return config.stats.map((s) => {
-        return p[s]
-      })
-    })
-
+    const stats = this.extractStats(config, this.state.players)
     this.setState({ config, stats })
   }
 
@@ -59,13 +54,16 @@ class App extends Component {
 
   updatePlayers(data) {
     const players = data
-    const stats = players.map((p) => {
-      return this.state.config.stats.map((s) => {
+    const stats = this.extractStats(this.state.config, players)
+    this.setState({ players, stats })
+  }
+
+  extractStats(config, players) {
+    return players.map((p) => {
+      return config.stats.map((s) => {
         return +p[s]
       })
     })
-
-    this.setState({ players, stats })
   }
 
   render() {

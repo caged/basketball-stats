@@ -40,7 +40,7 @@ class Visualization extends Component {
   recompute() {
     var tsne = new tsnejs.tSNE(this.props.options)
     tsne.initDataRaw(this.props.stats)
-    console.log(tsne);
+    console.log(this.props.stats);
   }
 
   redraw() {
