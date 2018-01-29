@@ -6,8 +6,8 @@ import './SideBar.css'
 class SideBar extends Component {
   componentDidMount() {
     // TODO: Allow selecting stats to include in sidebar
-    const stats = Config.stats
-    this.props.updateStats({ stats })
+    const config = Config
+    this.props.updateConfig(config)
   }
 
   render() {

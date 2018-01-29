@@ -28,13 +28,13 @@ class App extends Component {
 
     this.updateOptions = this.updateOptions.bind(this)
     this.updateDimensions = this.updateDimensions.bind(this)
-    this.updateStats = this.updateStats.bind(this)
-
+    this.updateConfig = this.updateConfig.bind(this)
+    this.updatePlayers = this.updatePlayers.bind(this)
   }
 
   updateOptions(key, val) {
     const options = {...this.state.options}
-    options[key] = val
+    options[key] = +val
     this.setState({ options })
   }
 
@@ -42,26 +42,40 @@ class App extends Component {
     this.setState({ dimensions })
   }
 
-  updateStats(stats) {
-    this.setState({ stats })
+  updateConfig(config) {
+    const stats = this.state.players.map((p) => {
+      return config.stats.map((s) => {
+        return p[s]
+      })
+    })
+
+    this.setState({ config, stats })
   }
 
   componentDidMount() {
     csv('./players.csv')
-      .get((data) => {
-        const players = data
-        this.setState( { players })
+      .get(this.updatePlayers)
+  }
+
+  updatePlayers(data) {
+    const players = data
+    const stats = players.map((p) => {
+      return this.state.config.stats.map((s) => {
+        return +p[s]
       })
+    })
+
+    this.setState({ players, stats })
   }
 
   render() {
     return (
       <div className="App">
-        <SideBar updateStats={this.updateStats} />
+        <SideBar updateConfig={this.updateConfig} />
         <FeatureContent
           dimensions={this.state.dimensions}
           options={this.state.options}
-          players={this.state.players}
+          stats={this.state.stats}
           updateOptions={this.updateOptions}
           updateDimensions={this.updateDimensions} />
       </div>

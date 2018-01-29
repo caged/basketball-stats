@@ -18,9 +18,13 @@ class Visualization extends Component {
     this.redraw = this.redraw.bind(this)
   }
 
-  shouldComponentUpdate() {
-    return this.props.players.length > 0
+  shouldComponentUpdate(props) {
+    return props.stats.length > 0
   }
+
+  // componentDidMount() {
+  //   this.redraw()
+  // }
 
   componentDidUpdate(prevProps, b) {
     const {width:nWidth, height:nHeight} = prevProps.dimensions
@@ -35,8 +39,8 @@ class Visualization extends Component {
 
   recompute() {
     var tsne = new tsnejs.tSNE(this.props.options)
-    console.log(this.props.players);
-    tsne.initDataRaw(this.props.players)
+    tsne.initDataRaw(this.props.stats)
+    console.log(tsne);
   }
 
   redraw() {
